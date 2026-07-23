@@ -1,0 +1,1 @@
+import {go} from '../App.jsx';import Footer from '../components/Footer.jsx';export default function NotFound(){return <><section className="pageHero reveal"><h1>404 — Page introuvable</h1><p>La page demandée n’existe pas ou a été déplacée.</p><button onClick={()=>go('/')} className="btn">Retour à l’accueil</button></section><Footer/></>}

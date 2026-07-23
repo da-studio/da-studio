@@ -1,0 +1,188 @@
+/* ==========================================================
+   HERO PROJETS 4K — IMAGE FIXE + FUMÉE ET LUMIÈRE VIVANTES
+   Scope strict : uniquement .compactProject .cpImageHero
+   ========================================================== */
+
+.compactProject .cpImageHero{
+  position:relative;
+  isolation:isolate;
+  height:560px;
+  min-height:560px;
+  overflow:hidden;
+  background:#080606;
+}
+
+.compactProject .cpImageHeroBackground{
+  position:absolute;
+  z-index:0;
+  inset:-2%;
+  width:104%;
+  height:104%;
+  object-fit:cover;
+  object-position:center;
+  transform:scale(1.015);
+  filter:saturate(1.02) contrast(1.025);
+  animation:cpHeroCamera 16s ease-in-out infinite alternate;
+  will-change:transform;
+}
+
+.compactProject .cpImageHeroShade{
+  position:absolute;
+  z-index:4;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.25),transparent 24%,transparent 66%,rgba(0,0,0,.72)),
+    radial-gradient(circle at 50% 48%,transparent 28%,rgba(0,0,0,.24) 100%);
+}
+
+.compactProject .cpImageHeroSmoke{
+  position:absolute;
+  z-index:2;
+  bottom:-22%;
+  width:54%;
+  height:72%;
+  pointer-events:none;
+  opacity:.23;
+  mix-blend-mode:screen;
+  filter:blur(34px);
+  background:
+    radial-gradient(ellipse at 45% 68%,color-mix(in srgb,var(--hero-main) 46%,transparent) 0 12%,transparent 45%),
+    radial-gradient(ellipse at 67% 52%,rgba(255,255,255,.16) 0 7%,transparent 36%),
+    radial-gradient(ellipse at 30% 38%,color-mix(in srgb,var(--hero-secondary) 36%,transparent) 0 9%,transparent 40%);
+  will-change:transform,opacity;
+}
+
+.compactProject .cpImageHeroSmokeLeft{
+  left:-13%;
+  animation:cpHeroSmokeLeft 11s ease-in-out infinite alternate;
+}
+
+.compactProject .cpImageHeroSmokeRight{
+  right:-13%;
+  transform:scaleX(-1);
+  animation:cpHeroSmokeRight 13s ease-in-out infinite alternate;
+}
+
+.compactProject .cpImageHeroLight{
+  position:absolute;
+  z-index:1;
+  top:-25%;
+  left:50%;
+  width:34%;
+  height:94%;
+  transform:translateX(-50%);
+  clip-path:polygon(43% 0,57% 0,100% 100%,0 100%);
+  pointer-events:none;
+  opacity:.11;
+  mix-blend-mode:screen;
+  filter:blur(20px);
+  background:linear-gradient(180deg,rgba(255,255,255,.48),color-mix(in srgb,var(--hero-main) 26%,transparent) 62%,transparent);
+  animation:cpHeroLightBreath 5.6s ease-in-out infinite;
+}
+
+.compactProject .cpImageHeroGlow{
+  position:absolute;
+  z-index:3;
+  left:50%;
+  bottom:11%;
+  width:38%;
+  height:13%;
+  transform:translateX(-50%);
+  border-radius:50%;
+  pointer-events:none;
+  opacity:.2;
+  filter:blur(24px);
+  mix-blend-mode:screen;
+  background:radial-gradient(ellipse,color-mix(in srgb,var(--hero-secondary) 58%,white) 0%,color-mix(in srgb,var(--hero-main) 35%,transparent) 42%,transparent 76%);
+  animation:cpHeroGlowPulse 4.4s ease-in-out infinite;
+}
+
+.compactProject .cpImageHero .cpHeroMeta,
+.compactProject .cpImageHero .cpSmokeCaption{
+  z-index:10;
+}
+
+.compactProject .cpImageHero .cpHeroMeta{
+  color:#fff;
+}
+
+.compactProject .cpImageHero .cpSmokeCaption{
+  position:absolute;
+  left:28px;
+  right:28px;
+  bottom:25px;
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:30px;
+}
+
+.compactProject .cpImageHero .cpSmokeCaption p{
+  margin:0;
+  color:rgba(255,255,255,.72)!important;
+  text-transform:uppercase;
+  letter-spacing:.18em;
+  font-size:9px!important;
+  font-weight:800;
+}
+
+.compactProject .cpImageHero .cpSmokeCaption span{
+  max-width:430px;
+  color:rgba(255,255,255,.88);
+  font-size:13px;
+  line-height:1.5;
+  text-align:right;
+  text-shadow:0 2px 14px rgba(0,0,0,.8);
+}
+
+@keyframes cpHeroCamera{
+  0%{transform:scale(1.015) translate3d(0,0,0)}
+  100%{transform:scale(1.065) translate3d(-.45%,-.25%,0)}
+}
+
+@keyframes cpHeroSmokeLeft{
+  0%{transform:translate3d(-4%,4%,0) scale(.9);opacity:.13}
+  50%{opacity:.27}
+  100%{transform:translate3d(10%,-7%,0) scale(1.12);opacity:.18}
+}
+
+@keyframes cpHeroSmokeRight{
+  0%{transform:translate3d(4%,5%,0) scaleX(-1) scale(.92);opacity:.12}
+  45%{opacity:.26}
+  100%{transform:translate3d(-9%,-8%,0) scaleX(-1) scale(1.14);opacity:.18}
+}
+
+@keyframes cpHeroLightBreath{
+  0%,100%{opacity:.07;transform:translateX(-50%) scaleX(.92)}
+  50%{opacity:.18;transform:translateX(-50%) scaleX(1.08)}
+}
+
+@keyframes cpHeroGlowPulse{
+  0%,100%{opacity:.12;transform:translateX(-50%) scaleX(.88)}
+  50%{opacity:.29;transform:translateX(-50%) scaleX(1.14)}
+}
+
+@media(max-width:900px){
+  .compactProject .cpImageHero{height:510px;min-height:510px}
+  .compactProject .cpImageHero .cpSmokeCaption{display:block}
+  .compactProject .cpImageHero .cpSmokeCaption span{display:block;margin-top:10px;text-align:left}
+  .compactProject .cpImageHeroBackground{inset:-1%;width:102%;height:102%}
+}
+
+@media(max-width:560px){
+  .compactProject .cpImageHero{height:470px;min-height:470px}
+  .compactProject .cpImageHeroBackground{object-position:center center}
+  .compactProject .cpImageHero .cpSmokeCaption span{max-width:290px}
+  .compactProject .cpImageHeroSmoke{width:72%;height:62%;opacity:.16}
+  .compactProject .cpImageHeroLight{width:52%}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .compactProject .cpImageHeroBackground,
+  .compactProject .cpImageHeroSmoke,
+  .compactProject .cpImageHeroLight,
+  .compactProject .cpImageHeroGlow{
+    animation:none!important;
+  }
+}

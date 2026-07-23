@@ -1,0 +1,5 @@
+export const offers={
+foundation:{slug:'foundation',name:'FOUNDATION',price:'950 $ · 1 semaine minimum',title:'Les fondations essentielles pour lancer votre identité avec clarté.',img:'couvertures/desk-bw.webp',inc:['1 logo principal','1 logo secondaire','Palette de couleurs personnalisée','1 typographie principale','2 éléments graphiques exclusifs','Brandboard']},
+identity:{slug:'identity',name:'IDENTITY',price:'1 900 $ · 2 semaines minimum',title:'Une identité visuelle complète pour faire grandir votre marque.',img:'couvertures/workspace1.webp',inc:['1 logo principal','2 déclinaisons du logo','Palette de couleurs personnalisée','2 typographies','3 éléments graphiques exclusifs','Carte de visite digitale','Brandboard complet']},
+prestige:{slug:'prestige',name:'PRESTIGE',price:'2 850 $ · 4 semaines minimum',title:'L’expérience branding complète pour une marque premium et durable.',img:'couvertures/workspace-wide.webp',inc:['Logo principal','Déclinaisons du logo','Palette complète','Typographies','Charte graphique complète','Brandboard','Éléments graphiques personnalisés','Mockups premium','Kit réseaux sociaux','Exports PNG/SVG/PDF','Fichiers sources']}
+};
