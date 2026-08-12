@@ -12,11 +12,12 @@ import Legal from './pages/Legal.jsx';
 import NotFound from './pages/NotFound.jsx';
 
 export const route = () => {
-  return window.location.hash.replace('#', '') || '/';
+  return window.location.pathname || '/';
 };
 
 export const go = (path) => {
-  window.location.hash = path;
+  window.history.pushState({}, '', path);
+  window.dispatchEvent(new PopStateEvent('popstate'));
 
   window.scrollTo({
     top: 0,
@@ -32,10 +33,10 @@ export default function App() {
       setCurrentPath(route());
     };
 
-    window.addEventListener('hashchange', handleHashChange);
+    window.addEventListener('popstate', handleHashChange);
 
     return () => {
-      window.removeEventListener('hashchange', handleHashChange);
+      window.removeEventListener('popstate', handleHashChange);
     };
   }, []);
 
