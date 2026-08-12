@@ -12,7 +12,7 @@ import Legal from './pages/Legal.jsx';
 import NotFound from './pages/NotFound.jsx';
 
 export const route = () => {
-  return window.location.pathname  '/';
+  return window.location.pathname || '/';
 };
 
 export const go = (path) => {
@@ -141,13 +141,13 @@ function updateCanonical(url) {
 
 function applySEO(path) {
   const seo =
-    SEO_CONFIG[path]  {
+    SEO_CONFIG[path] || {
       title: 'D&A Studio — Branding & Identité Visuelle Premium',
       description:
         'D&A Studio, studio créatif spécialisé en branding premium, identité visuelle, logo et direction artistique.',
     };
 
-  const canonicalUrl = https://da-studio-psi.vercel.app${path};
+  const canonicalUrl = `https://da-studio-psi.vercel.app${path}`;
 
   document.title = seo.title;
 
