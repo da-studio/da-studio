@@ -25,9 +25,9 @@ export const go = (path) => {
 
 const SEO_CONFIG = {
   '/': {
-    title: 'D&A Studio — Branding & Identité Visuelle Premium',
+    title: 'Studio de Branding & Identité Visuelle Premium | D&A Studio',
     description:
-      'D&A Studio crée des identités visuelles premium, logos sur mesure, directions artistiques et univers de marque cohérents pour entreprises et entrepreneurs.',
+      'D&A Studio est un studio de branding et d’identité visuelle premium : stratégie de marque, logo, système visuel et direction artistique pour marques ambitieuses en France et à l’international.',
   },
 
   '/about': {
@@ -148,11 +148,46 @@ function updateAlternate(language, url) {
   link.setAttribute('href', url);
 }
 
+function updateStructuredData(language) {
+  const id = 'da-studio-structured-data';
+  let script = document.getElementById(id);
+
+  if (!script) {
+    script = document.createElement('script');
+    script.id = id;
+    script.type = 'application/ld+json';
+    document.head.appendChild(script);
+  }
+
+  const data = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    '@id': 'https://da-studio-psi.vercel.app/#studio',
+    name: 'D&A Studio',
+    url: `https://da-studio-psi.vercel.app/${language}/`,
+    description:
+      language === 'en'
+        ? 'Premium branding and brand identity studio specializing in brand strategy, visual identity, logo design and art direction.'
+        : 'Studio de branding et d’identité visuelle premium spécialisé en stratégie de marque, identité visuelle, création de logo et direction artistique.',
+    knowsLanguage: ['fr', 'en'],
+    areaServed: 'Worldwide',
+    serviceType: [
+      'Brand Strategy',
+      'Brand Identity',
+      'Visual Identity',
+      'Logo Design',
+      'Art Direction'
+    ]
+  };
+
+  script.textContent = JSON.stringify(data);
+}
+
 function applySEO(path) {
   const language = getLanguageFromPath();
   const baseSeo = SEO_CONFIG[path] || SEO_CONFIG['/'];
   const english = {
-    '/': ['D&A Studio — Premium Branding & Brand Identity Studio', 'D&A Studio crafts premium brand identities, visual systems and art direction for ambitious brands worldwide.'],
+    '/': ['Premium Branding & Brand Identity Studio | D&A Studio', 'D&A Studio is a premium branding and brand identity studio creating brand strategy, logo design, visual systems and art direction for ambitious brands worldwide.'],
     '/about': ['About — Branding & Art Direction Studio | D&A Studio', 'Discover D&A Studio, a creative studio specializing in premium branding, brand identity, strategy and art direction.'],
     '/portfolio': ['Branding & Brand Identity Portfolio | D&A Studio', 'Explore D&A Studio projects across premium branding, brand identity, logo design and art direction.'],
     '/contact': ['Contact — Start Your Branding Project | D&A Studio', 'Contact D&A Studio to create or transform your brand identity, visual system, logo and art direction.'],
@@ -188,6 +223,7 @@ function applySEO(path) {
   updateAlternate('fr', frUrl);
   updateAlternate('en', enUrl);
   updateAlternate('x-default', enUrl);
+  updateStructuredData(language);
 }
 
 export default function App() {
