@@ -11,18 +11,16 @@ import Project from './pages/Project.jsx';
 import Legal from './pages/Legal.jsx';
 import NotFound from './pages/NotFound.jsx';
 
-export const route = () => {
-  return window.location.pathname || '/';
-};
+import { getLanguageFromPath, stripLanguagePrefix, localizedPath } from './utils/routing.js';
+
+export const route = () => stripLanguagePrefix();
 
 export const go = (path) => {
-  window.history.pushState({}, '', path);
+  const language = getLanguageFromPath();
+  window.history.pushState({}, '', localizedPath(path, language));
   window.dispatchEvent(new PopStateEvent('popstate'));
 
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth',
-  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
 const SEO_CONFIG = {
@@ -139,55 +137,57 @@ function updateCanonical(url) {
   canonical.setAttribute('href', url);
 }
 
-function applySEO(path) {
-  const seo =
-    SEO_CONFIG[path] || {
-      title: 'D&A Studio — Branding & Identité Visuelle Premium',
-      description:
-        'D&A Studio, studio créatif spécialisé en branding premium, identité visuelle, logo et direction artistique.',
-    };
+function updateAlternate(language, url) {
+  let link = document.querySelector(`link[rel="alternate"][hreflang="${language}"]`);
+  if (!link) {
+    link = document.createElement('link');
+    link.setAttribute('rel', 'alternate');
+    link.setAttribute('hreflang', language);
+    document.head.appendChild(link);
+  }
+  link.setAttribute('href', url);
+}
 
-  const canonicalUrl = `https://da-studio-psi.vercel.app${path}`;
+function applySEO(path) {
+  const language = getLanguageFromPath();
+  const baseSeo = SEO_CONFIG[path] || SEO_CONFIG['/'];
+  const english = {
+    '/': ['D&A Studio — Premium Branding & Brand Identity Studio', 'D&A Studio crafts premium brand identities, visual systems and art direction for ambitious brands worldwide.'],
+    '/about': ['About — Branding & Art Direction Studio | D&A Studio', 'Discover D&A Studio, a creative studio specializing in premium branding, brand identity, strategy and art direction.'],
+    '/portfolio': ['Branding & Brand Identity Portfolio | D&A Studio', 'Explore D&A Studio projects across premium branding, brand identity, logo design and art direction.'],
+    '/contact': ['Contact — Start Your Branding Project | D&A Studio', 'Contact D&A Studio to create or transform your brand identity, visual system, logo and art direction.'],
+    '/mentions-legales': ['Legal Notice | D&A Studio', 'Legal information and notices for the official D&A Studio website.'],
+    '/offres/foundation': ['Foundation — Branding Package | D&A Studio', 'Foundation gives ambitious brands clear, coherent and professional foundations for a distinctive identity.'],
+    '/offres/identity': ['Identity — Complete Brand Identity | D&A Studio', 'Identity is D&A Studio’s complete visual identity offer for brands seeking a coherent, premium presence.'],
+    '/offres/prestige': ['Prestige — Complete Premium Branding | D&A Studio', 'Prestige is D&A Studio’s comprehensive offer for building a strategic, distinctive and premium brand world.'],
+    '/projets/aurelys': ['Aurelys — Brand Identity & Art Direction | D&A Studio', 'Discover Aurelys, an elegant premium brand identity and art direction project by D&A Studio.'],
+    '/projets/diara': ['Diara — Jewelry Branding & Brand Identity | D&A Studio', 'Discover Diara, a refined jewelry brand identity created by D&A Studio around elegance and femininity.'],
+    '/projets/enjoy': ['Enjoy — Restaurant Branding & Brand Identity | D&A Studio', 'Discover Enjoy, a restaurant brand identity created by D&A Studio around generous, modern and convivial cuisine.'],
+    '/projets/lumea': ['Lumea — Beauty & Cosmetics Branding | D&A Studio', 'Discover Lumea, a premium cosmetics branding and brand identity project created by D&A Studio.'],
+    '/projets/orange': ['Orange — Wellness & Spa Branding | D&A Studio', 'Discover Orange, a wellness and spa brand identity developed by D&A Studio.'],
+    '/projets/proud': ['Proud — Cosmetics Branding & Brand Identity | D&A Studio', 'Discover Proud, a premium cosmetics brand identity designed by D&A Studio.'],
+  };
+  const seo = language === 'en' && english[path]
+    ? { title: english[path][0], description: english[path][1] }
+    : baseSeo;
+
+  const origin = 'https://da-studio-psi.vercel.app';
+  const canonicalUrl = `${origin}${localizedPath(path, language)}`;
+  const frUrl = `${origin}${localizedPath(path, 'fr')}`;
+  const enUrl = `${origin}${localizedPath(path, 'en')}`;
 
   document.title = seo.title;
-
-  updateMetaTag(
-    'meta[name="description"]',
-    { name: 'description' },
-    seo.description
-  );
-
-  updateMetaTag(
-    'meta[property="og:title"]',
-    { property: 'og:title' },
-    seo.title
-  );
-
-  updateMetaTag(
-    'meta[property="og:description"]',
-    { property: 'og:description' },
-    seo.description
-  );
-
-  updateMetaTag(
-    'meta[property="og:url"]',
-    { property: 'og:url' },
-    canonicalUrl
-  );
-
-  updateMetaTag(
-    'meta[name="twitter:title"]',
-    { name: 'twitter:title' },
-    seo.title
-  );
-
-  updateMetaTag(
-    'meta[name="twitter:description"]',
-    { name: 'twitter:description' },
-    seo.description
-  );
-
+  document.documentElement.lang = language;
+  updateMetaTag('meta[name="description"]', { name: 'description' }, seo.description);
+  updateMetaTag('meta[property="og:title"]', { property: 'og:title' }, seo.title);
+  updateMetaTag('meta[property="og:description"]', { property: 'og:description' }, seo.description);
+  updateMetaTag('meta[property="og:url"]', { property: 'og:url' }, canonicalUrl);
+  updateMetaTag('meta[name="twitter:title"]', { name: 'twitter:title' }, seo.title);
+  updateMetaTag('meta[name="twitter:description"]', { name: 'twitter:description' }, seo.description);
   updateCanonical(canonicalUrl);
+  updateAlternate('fr', frUrl);
+  updateAlternate('en', enUrl);
+  updateAlternate('x-default', enUrl);
 }
 
 export default function App() {
