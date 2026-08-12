@@ -1,5 +1,6 @@
 import {createContext,useContext,useEffect,useMemo,useState} from 'react';
 import {translations} from '../data/translations.js';
+import {getLanguageFromPath, localizedPath, stripLanguagePrefix} from '../utils/routing.js';
 
 const SitePreferencesContext=createContext(null);
 
@@ -39,7 +40,7 @@ function translateDocument(lang){
 
 export function SitePreferencesProvider({children}){
   const[theme,setTheme]=useState(()=>localStorage.getItem('da-theme')||'light');
-  const[language,setLanguage]=useState(()=>localStorage.getItem('da-language')||'fr');
+  const[language,setLanguage]=useState(()=>getLanguageFromPath());
 
   useEffect(()=>{
     document.documentElement.dataset.theme=theme;
@@ -58,11 +59,23 @@ export function SitePreferencesProvider({children}){
     return()=>{cancelAnimationFrame(frame);observer.disconnect()};
   },[language]);
 
+  useEffect(()=>{
+    const syncLanguageFromUrl=()=>setLanguage(getLanguageFromPath());
+    window.addEventListener('popstate',syncLanguageFromUrl);
+    return()=>window.removeEventListener('popstate',syncLanguageFromUrl);
+  },[]);
+
   const value=useMemo(()=>({
     theme,language,
     t:(value)=>translateText(value,language),
     toggleTheme:()=>setTheme(v=>v==='dark'?'light':'dark'),
-    toggleLanguage:()=>setLanguage(v=>v==='fr'?'en':'fr')
+    toggleLanguage:()=>setLanguage(current=>{
+      const next=current==='fr'?'en':'fr';
+      const internalPath=stripLanguagePrefix(window.location.pathname);
+      window.history.pushState({},'',localizedPath(internalPath,next));
+      window.dispatchEvent(new PopStateEvent('popstate'));
+      return next;
+    })
   }),[theme,language]);
 
   return <SitePreferencesContext.Provider value={value}>{children}</SitePreferencesContext.Provider>;
