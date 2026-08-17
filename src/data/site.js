@@ -1,5 +1,6 @@
 export const A='/assets/images/';
 export const NOTION='https://bright-shoulder-1b0.notion.site/3689fa35b51b800d8567c1cc602a7646';
+export const GOOGLE_FORM='https://docs.google.com/forms/d/e/1FAIpQLSe4cFtUetZawR4tticoh1ROlKCEk77s3M3XRAwwH-PvbrpqTQ/viewform?usp=publish-editor';
 export const socials={
 instagram:'https://www.instagram.com/djamel_antonya?igsh=MTV0MWVwOHh3MHoyNQ%3D%3D&utm_source=qr',
 tiktok:'https://www.tiktok.com/@djamel_antonya?_r=1&_t=ZS-988iqlc1hnE',

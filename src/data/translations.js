@@ -1,4 +1,5 @@
 export const translations={
+'Démarrer votre projet':'Start your project','Choisissez la plateforme qui vous convient.':'Choose the platform that suits you.',
 'Retour accueil':'Back to home','Accueil':'Home','Offres':'Services','Le Studio':'The Studio','Nous contacter':'Contact us','Menu mobile':'Mobile menu',
 'DÉMARRER MON PROJET →':'START MY PROJECT →','Démarrer mon projet →':'Start my project →','CONSTRUIRE MA MARQUE →':'BUILD MY BRAND →','Démarrer':'Get started','À votre tour.':'Your turn.','Prêt(e) à transformer votre marque ?':'Ready to transform your brand?','Votre marque mérite une identité pensée avec stratégie, créativité et précision.':'Your brand deserves an identity shaped with strategy, creativity and precision.','Remplissez notre espace projet. Nous vous recontactons sous 24h avec les prochaines étapes.':'Complete our project form. We will get back to you within 24 hours with the next steps.',
 'Construisons une marque qui restera.':'Let’s build a brand that lasts.','© 2025 — Identités visuelles & branding premium.':'© 2025 — Premium visual identities & branding.','Mentions légales':'Legal notice',
